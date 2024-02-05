@@ -1,0 +1,4 @@
+#Mon Feb 05 16:55:54 IST 2024
+base.0=/Users/narasimhanatheshrao/Debasish/True/timeoffice/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
