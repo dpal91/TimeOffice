@@ -138,7 +138,13 @@ class HistoryPage extends GetWidget<HistoryController> {
 widgetListItem(item, HistoryController controller) => Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
       child: Container(
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(
+            color: (item['gain'] ?? "") == ""
+                ? Colors.yellow.shade300
+                : ((item['gain'] ?? "").toString().contains("-"))
+                    ? Colors.red.shade300
+                    : Colors.green.shade300,
+            borderRadius: BorderRadius.circular(10)),
         child: Container(
           decoration: BoxDecoration(
               border: Border.all(width: 1, color: Colors.black.withOpacity(0.5)), borderRadius: BorderRadius.circular(10)),

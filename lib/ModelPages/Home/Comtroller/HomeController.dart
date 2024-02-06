@@ -166,7 +166,7 @@ class HomeController extends GetxController {
     var maxOutTimes = ApplicationStorage.getData(ApplicationStorage.OutTime) ?? "";
     var maxOutTime = GlobalFunctions.getTimeVal(maxOutTimes);
     if (outTime > maxOutTime) {
-      errorIn.value = maxOutTime.toString() + " will be recorded as Out time";
+      errorIn.value = maxOutTimes.toString() + " will be recorded as Out time";
       return true;
     } else
       return false;
