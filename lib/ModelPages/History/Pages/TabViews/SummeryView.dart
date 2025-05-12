@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:timeoffice/Consts/ApplicationStorage.dart';
+import 'package:timeoffice/Consts/GlobalFunctions.dart';
 import 'package:timeoffice/ModelPages/History/Comtroller/HistoryController.dart';
 
 class SummaryView extends GetWidget<HistoryController> {
@@ -28,10 +29,14 @@ class SummaryView extends GetWidget<HistoryController> {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 20, left: 40, right: 40, bottom: 20),
+            padding: EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 20),
             child: Column(
               children: [
-                Center(child: Text("May 2025")),
+                Center(
+                    child: Text(
+                  months[controller.month - 1] + " - " + controller.year.toString(),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                )),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -84,7 +84,9 @@ class SignupController extends GetxController {
     });
 
     var workingH = int.parse(ApplicationStorage.getData(ApplicationStorage.WorkingHour) ?? "0");
-    workingTime.value = DateTime(1, 1, 1, workingH ~/ 60, workingH % 60);
+    if (workingH.toInt() != 0) {
+      workingTime.value = DateTime(1, 1, 1, workingH ~/ 60, workingH % 60);
+    }
   }
 
   void updateWorkingHour() {

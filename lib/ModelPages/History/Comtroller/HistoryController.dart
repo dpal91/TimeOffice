@@ -150,8 +150,12 @@ class HistoryController extends GetxController {
         days++;
       }
     }
-    int avg = (totalMin / days).toInt();
+    int avg = 0;
+    if (totalMin != 0 && days != 0) avg = (totalMin / days).toInt();
+
+    int lateAvg = 0;
+    if (totalLate != 0 && lateDays != 0) lateAvg = (totalLate / lateDays).toInt();
     avgWork.value = DateTime(1, 1, 1, 0, avg);
-    avgLate.value = DateTime(1, 1, 1, 0, (totalLate / lateDays).toInt());
+    avgLate.value = DateTime(1, 1, 1, 0, lateAvg);
   }
 }

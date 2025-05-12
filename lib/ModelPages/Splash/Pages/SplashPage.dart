@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:timeoffice/ModelPages/Splash/Comtroller/SplashController.dart';
 
 class SplashPage extends GetWidget<SplashController> {
-  const SplashPage({super.key});
+  SplashPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class SplashPage extends GetWidget<SplashController> {
             alignment: Alignment.bottomRight,
             child: Container(
               padding: EdgeInsets.all(20),
-              child: Text("Version: 2.0.1"),
+              child: Obx(() => Text("Version: ${controller.version.value}")),
             ),
           )
         ],
