@@ -51,11 +51,10 @@ class GlobalFunctions {
     final DateTime? picked =
         await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1990), lastDate: DateTime.now());
     if (picked != null)
-      text.text =
-          picked.day.toString().padLeft(2, '0') + "-" + months[picked.month - 1] + "-" + picked.year.toString().padLeft(2, '0');
+      text.text = picked.day.toString().padLeft(2, '0') + "-" + months[picked.month - 1] + "-" + picked.year.toString().padLeft(2, '0');
   }
 
-  static getTimeVal(String stringTime) {
+  static int getTimeVal(String stringTime) {
     if (stringTime == "" || stringTime == "0")
       return 0;
     else {
@@ -72,6 +71,7 @@ class GlobalFunctions {
         else
           return (int.parse(hr) + 12) * 60 + int.parse(mn);
       }
+      return 0;
     }
   }
 

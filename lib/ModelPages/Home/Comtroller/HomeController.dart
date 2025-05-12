@@ -15,6 +15,7 @@ class HomeController extends GetxController {
   var errorOut = ''.obs;
   var toDayMonthYear = '';
   var fullToday = '';
+
   HomeController() {
     userName.value = ApplicationStorage.getData(ApplicationStorage.UserName) ?? "";
     print(userName.value);
@@ -27,6 +28,7 @@ class HomeController extends GetxController {
     checkForAlreadyPunchedIn();
     checkForAlreadyPunchedOut();
   }
+
   void checkForAlreadyPunchedIn() {
     isPunchedIn.value = false;
     var thisMonthList = ApplicationStorage.getData(toDayMonthYear) ?? [];
@@ -103,7 +105,7 @@ class HomeController extends GetxController {
           var gain = 0;
           if (outTime != 0) {
             var timeDif = outTime - inTime;
-            var stayTime = int.parse(ApplicationStorage.getData(ApplicationStorage.WorkingHour) ?? "0") * 60;
+            var stayTime = int.parse(ApplicationStorage.getData(ApplicationStorage.WorkingHour) ?? "0");
             gain = (timeDif - stayTime);
           }
           item['punchOutTime'] = time;

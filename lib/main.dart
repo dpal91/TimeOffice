@@ -19,6 +19,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        tabBarTheme: TabBarTheme(
+            // dividerColor: Colors.blue,
+            labelColor: Colors.indigo,
+            indicatorColor: Colors.indigo),
+        useMaterial3: false,
       ),
       initialRoute: ApplicationRoutes.Splash,
       getPages: ApplicationRoutes.pages,

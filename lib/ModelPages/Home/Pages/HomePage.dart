@@ -1,12 +1,9 @@
-import 'dart:ffi';
-
 import 'package:analog_clock/analog_clock.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timeoffice/Consts/ApplicationRoutes.dart';
 import 'package:timeoffice/Consts/GlobalFunctions.dart';
 import 'package:timeoffice/ModelPages/Home/Comtroller/HomeController.dart';
-import 'package:timeoffice/ModelPages/Signup/Comtroller/SignupController.dart';
 
 class HomePage extends GetWidget<HomeController> {
   const HomePage({super.key});
@@ -48,7 +45,8 @@ class HomePage extends GetWidget<HomeController> {
                     child: Center(
                       child: Text(
                         "Hello " + controller.userName.value + "!",
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
@@ -61,12 +59,16 @@ class HomePage extends GetWidget<HomeController> {
                   Center(
                     child: Container(
                       height: 200,
-                      child: AnalogClock(
-                        showAllNumbers: true,
-                        showDigitalClock: false,
-                        hourHandColor: Colors.grey.shade600,
-                        minuteHandColor: Colors.grey.shade900,
-                        // datetime: DateTime(2022, 1, 1, 11, 10, 10),
+                      child: Container(
+                        child: AnalogClock(
+                          // decoration: BoxDecoration(color: Colors.blue),
+
+                          showAllNumbers: true,
+                          showDigitalClock: false,
+                          hourHandColor: Colors.grey.shade600,
+                          minuteHandColor: Colors.grey.shade900,
+                          // datetime: DateTime(2022, 1, 1, 11, 10, 10),
+                        ),
                       ),
                     ),
                   ),
@@ -74,6 +76,12 @@ class HomePage extends GetWidget<HomeController> {
                     padding: const EdgeInsets.only(top: 30),
                     child: Center(
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          elevation: 10,
+                        ),
                         onPressed: () {
                           controller.assignDateTimeNow();
                           Get.dialog(showPunchInDialog(context));
@@ -91,6 +99,12 @@ class HomePage extends GetWidget<HomeController> {
                     padding: const EdgeInsets.only(top: 10),
                     child: Center(
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          elevation: 10,
+                        ),
                         onPressed: () {
                           controller.assignDateTimeNow();
                           Get.dialog(showPunchOutDialog(context));
@@ -146,7 +160,8 @@ class HomePage extends GetWidget<HomeController> {
                   Center(
                     child: Text(
                       "Punch In",
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
                   Container(
@@ -160,10 +175,13 @@ class HomePage extends GetWidget<HomeController> {
                       canRequestFocus: false,
                       enableInteractiveSelection: false,
                       onTap: () {
-                        GlobalFunctions.selectDate(context, controller.punchInDateController);
+                        GlobalFunctions.selectDate(
+                            context, controller.punchInDateController);
                       },
-                      decoration:
-                          InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), labelText: "Date"),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          labelText: "Date"),
                     ),
                   ),
                   Padding(
@@ -174,12 +192,17 @@ class HomePage extends GetWidget<HomeController> {
                       onChanged: (value) => controller.updatePunchInTime(),
                       enableInteractiveSelection: false,
                       onTap: () {
-                        GlobalFunctions.choseTime(context, controller.punchInTimeController, 3, val: "in");
+                        GlobalFunctions.choseTime(
+                            context, controller.punchInTimeController, 3,
+                            val: "in");
                       },
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
                           labelText: "Time",
-                          errorText: controller.errorIn.value == "" ? null : controller.errorIn.value),
+                          errorText: controller.errorIn.value == ""
+                              ? null
+                              : controller.errorIn.value),
                     ),
                   ),
                   Padding(
@@ -193,7 +216,9 @@ class HomePage extends GetWidget<HomeController> {
                             },
                             child: Text("Cancel"),
                             style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.grey.shade200))),
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith(
+                                        (states) => Colors.grey.shade200))),
                         ElevatedButton(
                             onPressed: () {
                               controller.punchIn();
@@ -223,7 +248,8 @@ class HomePage extends GetWidget<HomeController> {
                   Center(
                     child: Text(
                       "Punch Out",
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
                   Container(
@@ -237,10 +263,13 @@ class HomePage extends GetWidget<HomeController> {
                       canRequestFocus: false,
                       enableInteractiveSelection: false,
                       onTap: () {
-                        GlobalFunctions.selectDate(context, controller.punchInDateController);
+                        GlobalFunctions.selectDate(
+                            context, controller.punchInDateController);
                       },
-                      decoration:
-                          InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), labelText: "Date"),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          labelText: "Date"),
                     ),
                   ),
                   Padding(
@@ -251,12 +280,17 @@ class HomePage extends GetWidget<HomeController> {
                       canRequestFocus: false,
                       enableInteractiveSelection: false,
                       onTap: () {
-                        GlobalFunctions.choseTime(context, controller.punchInTimeController, 3, val: "out");
+                        GlobalFunctions.choseTime(
+                            context, controller.punchInTimeController, 3,
+                            val: "out");
                       },
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
                           labelText: "Time",
-                          errorText: controller.errorIn.value == "" ? null : controller.errorIn.value),
+                          errorText: controller.errorIn.value == ""
+                              ? null
+                              : controller.errorIn.value),
                     ),
                   ),
                   Padding(
@@ -270,7 +304,9 @@ class HomePage extends GetWidget<HomeController> {
                             },
                             child: Text("Cancel"),
                             style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.grey.shade200))),
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith(
+                                        (states) => Colors.grey.shade200))),
                         ElevatedButton(
                             onPressed: () {
                               controller.punchOut();

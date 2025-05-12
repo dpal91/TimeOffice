@@ -5,6 +5,9 @@ class ApplicationStorage {
   static const String InTime = "inTime";
   static const String OutTime = "outTime";
   static const String WorkingHour = "workingHour";
+  static const String WorkingHourUpdated = "workingHourUpdated";
+  static const String WeeklyOff = "weeklyOff";
+
   // static const String UseraName = "userName";
 
   static saveData(String key, dynamic value) {

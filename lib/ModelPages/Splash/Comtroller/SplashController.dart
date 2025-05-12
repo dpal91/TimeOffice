@@ -4,8 +4,11 @@ import 'package:timeoffice/Consts/ApplicationStorage.dart';
 
 class SplashController extends GetxController {
   SplashController() {
+    var name = ApplicationStorage.getData(ApplicationStorage.UserName) ?? "";
+    var weeklyoff = ApplicationStorage.getData(ApplicationStorage.WeeklyOff) ?? [];
+    print(weeklyoff);
+    if (weeklyoff.isEmpty) ApplicationStorage.saveData(ApplicationStorage.WeeklyOff, ["Sat", "Sun"]);
     Future.delayed(Duration(seconds: 2), () {
-      var name = ApplicationStorage.getData(ApplicationStorage.UserName) ?? "";
       print(name);
       if (name == "") {
         Get.offAndToNamed(ApplicationRoutes.Signup);
