@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:timeoffice/Consts/ApplicationStorage.dart';
 import 'package:timeoffice/Consts/GlobalFunctions.dart';
-import 'package:timeoffice/ModelPages/History/Comtroller/HistoryController.dart';
+import 'package:timeoffice/ModelPages/History/Controller/HistoryController.dart';
 
 class SummaryView extends GetWidget<HistoryController> {
   SummaryView({super.key});

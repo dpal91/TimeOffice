@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:timeoffice/ModelPages/History/Comtroller/HistoryController.dart';
+import 'package:timeoffice/ModelPages/History/Controller/HistoryController.dart';
 
 class HistoryBinding extends Bindings {
   @override
