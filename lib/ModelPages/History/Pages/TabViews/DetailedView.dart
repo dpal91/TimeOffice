@@ -141,7 +141,7 @@ widgetListItem(item, HistoryController controller) {
   var outTime = item["punchOutTime"] ?? "Not Marked";
   var gain = item['gain'] ?? "";
   return Padding(
-    padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+    padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 5),
     child: Container(
       decoration: BoxDecoration(
           color: (item['gain'] ?? "") == ""
@@ -149,7 +149,8 @@ widgetListItem(item, HistoryController controller) {
               : ((item['gain'] ?? "").toString().contains("-"))
                   ? Colors.red.shade100
                   : Colors.green.shade100,
-          borderRadius: BorderRadius.circular(10)),
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [BoxShadow(color: Colors.grey, offset: Offset(2, 3), blurRadius: 3)]),
       child: Container(
         decoration:
             BoxDecoration(border: Border.all(width: 1, color: Colors.black.withOpacity(0.5)), borderRadius: BorderRadius.circular(10)),
@@ -159,42 +160,42 @@ widgetListItem(item, HistoryController controller) {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    item["date"],
-                    style: TextStyle(fontWeight: FontWeight.w800),
-                  ),
-                  GestureDetector(
-                      onTap: () {
-                        Get.defaultDialog(
-                            title: "Delete?",
-                            middleText: "Do you want to delete the record?",
-                            confirm: ElevatedButton(
-                                style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.red)),
-                                onPressed: () {
-                                  controller.delete(item['date'] ?? "");
-                                  Get.back();
-                                  // HomeController homeController = Get.find();
-                                  // homeController.needRefresh.value = true;
-                                },
-                                child: Text("YES")),
-                            cancel: TextButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                child: Text("Cancel")));
-                      },
-                      child: Icon(Icons.delete_forever))
-                ],
-              ),
-              SizedBox(height: 5),
-              Container(
-                height: 1,
-                decoration: BoxDecoration(color: Colors.grey),
-              ),
+              // SizedBox(height: 5),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text(
+              //       item["date"],
+              //       style: TextStyle(fontWeight: FontWeight.w800),
+              //     ),
+              //     GestureDetector(
+              //         onTap: () {
+              //           Get.defaultDialog(
+              //               title: "Delete?",
+              //               middleText: "Do you want to delete the record?",
+              //               confirm: ElevatedButton(
+              //                   style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.red)),
+              //                   onPressed: () {
+              //                     controller.delete(item['date'] ?? "");
+              //                     Get.back();
+              //                     // HomeController homeController = Get.find();
+              //                     // homeController.needRefresh.value = true;
+              //                   },
+              //                   child: Text("YES")),
+              //               cancel: TextButton(
+              //                   onPressed: () {
+              //                     Get.back();
+              //                   },
+              //                   child: Text("Cancel")));
+              //         },
+              //         child: Icon(Icons.delete_forever))
+              //   ],
+              // ),
+              // SizedBox(height: 5),
+              // Container(
+              //   height: 1,
+              //   decoration: BoxDecoration(color: Colors.grey),
+              // ),
               // Padding(
               //   padding: EdgeInsets.only(left: 5, right: 5, top: 5),
               //   child: Row(
@@ -267,14 +268,38 @@ widgetListItem(item, HistoryController controller) {
                         Text(" Check In:   " + item["punchInTime"] ?? "", style: TextStyle(fontWeight: FontWeight.w500)),
                         SizedBox(
                           height: 30,
-                          child: Center(child: Text(gain == "" ? " N/A" : " Gain:  $gain")),
+                          child: Center(child: Text(gain == "" ? " N/A" : " Gain:  $gain", style: TextStyle(fontWeight: FontWeight.w500))),
                         ),
                         Text(" Check Out:   " + outTime, style: TextStyle(fontWeight: FontWeight.w500)),
                       ],
                     ),
                   ),
                   Expanded(child: SizedBox()),
-                  Icon(Icons.add)
+                  IconButton(
+                      onPressed: () {
+                        Get.defaultDialog(
+                            title: "Delete?",
+                            middleText: "Do you want to delete the record?",
+                            confirm: ElevatedButton(
+                                style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.red)),
+                                onPressed: () {
+                                  controller.delete(item['date'] ?? "");
+                                  Get.back();
+                                  // HomeController homeController = Get.find();
+                                  // homeController.needRefresh.value = true;
+                                },
+                                child: Text("YES")),
+                            cancel: TextButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: Text("Cancel")));
+                      },
+                      icon: Icon(
+                        Icons.delete_forever_outlined,
+                        size: 30,
+                        color: Colors.red.shade500,
+                      ))
                 ],
               )
             ],
