@@ -16,6 +16,11 @@ class HomePage extends GetWidget<HomeController> {
             actions: [
               IconButton(
                   onPressed: () {
+                    controller.doPayment();
+                  },
+                  icon: Icon(Icons.currency_rupee)),
+              IconButton(
+                  onPressed: () {
                     // SignupController signupController;
                     // try {
                     //   signupController = Get.put(SignupController());
@@ -44,7 +49,7 @@ class HomePage extends GetWidget<HomeController> {
                     padding: EdgeInsets.only(top: 20),
                     child: Center(
                       child: Text(
-                        "Hello " + controller.userName.value + "!",
+                        "Hello " + controller.userName.value.toString().toUpperCase() + "!",
                         style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                       ),
                     ),

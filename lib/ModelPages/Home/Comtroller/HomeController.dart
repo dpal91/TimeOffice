@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:timeoffice/Consts/ApplicationRoutes.dart';
 import 'package:timeoffice/Consts/ApplicationStorage.dart';
 import 'package:timeoffice/Consts/GlobalFunctions.dart';
+import 'package:upi_india/upi_india.dart';
 
 class HomeController extends GetxController {
   TextEditingController punchInTimeController = TextEditingController();
   TextEditingController punchInDateController = TextEditingController();
+  TextEditingController amountToPay = TextEditingController();
+
   var userName = ''.obs;
   var isPunchedIn = false.obs;
   var isPunchedOut = false.obs;
@@ -15,6 +19,9 @@ class HomeController extends GetxController {
   var errorOut = ''.obs;
   var toDayMonthYear = '';
   var fullToday = '';
+  var upiIndia = UpiIndia();
+
+  var selectedIndex = (-1).obs;
 
   HomeController() {
     userName.value = ApplicationStorage.getData(ApplicationStorage.UserName) ?? "";
@@ -172,5 +179,165 @@ class HomeController extends GetxController {
       return true;
     } else
       return false;
+  }
+
+  void doPayment() async {
+    // print(apps.length);
+    // print(apps[2].packageName);
+    //
+    selectedIndex.value = 0;
+    amountToPay.text = "50";
+    final List<UpiApp> apps = await upiIndia.getAllUpiApps();
+
+    apps.length >= 1
+        ? Get.defaultDialog(
+            title: "Select",
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: double.maxFinite,
+                  child: TextField(
+                    controller: amountToPay,
+                    keyboardType: TextInputType.number,
+                    maxLength: 3,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: InputDecoration(border: OutlineInputBorder(), label: Text("Enter Amount")),
+                  ),
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  height: 170,
+                  width: double.maxFinite,
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: apps.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          selectedIndex.value = index;
+                        },
+                        child: Obx(() => Container(
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(width: 1),
+                                  color: selectedIndex.value == index ? Colors.green.shade100 : Colors.transparent),
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                      right: 5,
+                                      top: 5,
+                                      child: selectedIndex.value == index
+                                          ? Icon(
+                                              Icons.check_circle_outline,
+                                              color: Colors.green.shade800,
+                                            )
+                                          : SizedBox()),
+                                  Container(
+                                    height: double.maxFinite,
+                                    width: double.maxFinite,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          height: 40,
+                                          width: 40,
+                                          child: Image.memory(
+                                            apps[index].icon,
+                                          ),
+                                        ),
+                                        Text(apps[index].name)
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )),
+                      );
+                    },
+                  ),
+                  // ListView.builder(
+                  //   scrollDirection: Axis.horizontal,
+                  //   itemCount: apps.length,
+                  //   itemBuilder: (context, index) {
+                  //     UpiApp app = apps![index];
+                  //     return SizedBox(
+                  //       width: 200,
+                  //       height: 50,
+                  //       child: ListTile(
+                  //         leading: Image.memory(app.icon),
+                  //         title: Text(app.name),
+                  //         onTap: () {
+                  //           Get.back();
+                  //           _initiateTransaction(app);
+                  //         },
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+                ),
+              ],
+            ),
+            actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      Get.back();
+                      print(apps[selectedIndex.value].name);
+                      _initiateTransaction(apps[selectedIndex.value]);
+                    },
+                    child: Text("Make Payment"))
+              ])
+        : Get.snackbar("Oops!", "Still under development",
+            snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red.shade600, colorText: Colors.white);
+    // final response = await upiIndia.startTransaction(
+    //
+    //   transactionNote: 'A UPI Transaction', app: null,
+    //   // merchantCode: '7372',
+    // );
+    // print(response.status);
+  }
+
+  void _initiateTransaction(UpiApp app) async {
+    try {
+      UpiResponse response = await upiIndia.startTransaction(
+        app: app,
+        receiverUpiId: "dpal91@okicici",
+        receiverName: "Debasish Paul",
+        transactionRefId: "toApp" + userName.value.replaceAll(" ", ""),
+        transactionNote: "Time Office user",
+        amount: double.tryParse(amountToPay.text) ?? 20.0,
+      );
+
+      _handleTransactionResponse(response);
+    } catch (e) {
+      print(e.toString());
+      Get.snackbar("User Cancelled", "", snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
+  void _handleTransactionResponse(UpiResponse res) {
+    if (res == null) {
+      print("User Cancelled");
+      return;
+    }
+    String txnStatus = res.status ?? "Unknown";
+    String txnId = res.transactionId ?? "N/A";
+
+    if (txnStatus == UpiPaymentStatus.SUCCESS) {
+      print("Transaction successful: $txnId");
+    } else if (txnStatus == UpiPaymentStatus.FAILURE) {
+      print("Transaction failed.");
+    } else if (txnStatus == UpiPaymentStatus.SUBMITTED) {
+      print("Transaction submitted, wait for confirmation.");
+    } else {
+      print("Transaction status: $txnStatus");
+    }
   }
 }
